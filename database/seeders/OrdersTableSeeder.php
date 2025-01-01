@@ -9,9 +9,11 @@ class OrdersTableSeeder extends Seeder
 {
     public function run()
     {
-        Order::create([
-            'user_id' => 2,
-            'total_price' => 49.98
-        ]);
+        for ($i = 1; $i <= 5; $i++) {
+            Order::create([
+                'user_id' => $i,
+                'total_price' => rand(50, 200)
+            ]);
+        }
     }
 }

@@ -7,6 +7,10 @@
         @csrf
         @method('PUT')
         <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ $book->name }}" required>
+        </div>
+        <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" name="title" id="title" class="form-control" value="{{ $book->title }}" required>
         </div>
@@ -34,6 +38,3 @@
     </form>
 </div>
 @endsection
-
-
-{{-- resources/views/books/show.blade.php --}}

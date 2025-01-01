@@ -9,7 +9,10 @@ class CategoriesTableSeeder extends Seeder
 {
     public function run()
     {
-        Category::create(['name' => 'Technology']);
-        Category::create(['name' => 'Science']);
+        $categories = ['Technology', 'Science', 'Literature', 'History', 'Arts'];
+
+        foreach ($categories as $category) {
+            Category::create(['name' => $category]);
+        }
     }
 }

@@ -10,6 +10,7 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->string('name'); 
             $table->string('title');
             $table->string('author');
             $table->text('description')->nullable();
@@ -17,6 +18,7 @@ class CreateBooksTable extends Migration
             $table->integer('stock');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

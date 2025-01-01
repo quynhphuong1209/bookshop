@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
         $books = Book::with('category')->get();
@@ -16,7 +21,7 @@ class BookController extends Controller
 
     public function show($id)
     {
-        $book = Book::with(['category', 'reviews.user'])->findOrFail($id);
+        $book = Book::findOrFail($id);
         return view('books.show', compact('book'));
     }
 
@@ -29,8 +34,10 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'name' => 'required|string',
             'title' => 'required|string',
             'author' => 'required|string',
+            'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
@@ -50,8 +57,10 @@ class BookController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'name' => 'required|string',
             'title' => 'required|string',
             'author' => 'required|string',
+            'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
@@ -65,7 +74,14 @@ class BookController extends Controller
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
-        $book->delete();
+        $book->delete(); // Sử dụng soft delete
+        return redirect()->route('books.index');
+    }
+
+    public function restore($id)
+    {
+        $book = Book::onlyTrashed()->findOrFail($id);
+        $book->restore();
         return redirect()->route('books.index');
     }
 
